@@ -22,9 +22,9 @@ from Hexashop import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # path('', include('main.urls')),
+    path('', include('main.urls')),
     path('auth/', include('accounts.urls')),
-    # path('products/', include('products.urls')),
+    path('products/', include('products.urls')),
 
 ]
 
