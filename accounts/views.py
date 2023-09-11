@@ -12,7 +12,7 @@ def login_view(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect('profile', user.id)
+            return redirect('/')
     return render(request, 'accounts/login.html')
     
 def logout_view(request):
@@ -32,5 +32,4 @@ def register_view(request):
 
 def profile_view(request, pk):
     user = get_object_or_404(CustomUser, pk=pk)
-    article_list = Article.objects.filter(author__user__id=user.id)
-    return render(request, 'accounts/profile.html', {'user': user, 'article_list': article_list})
+    return render(request, 'accounts/profile.html')
