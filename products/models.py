@@ -1,5 +1,7 @@
 from django.db import models
 
+from accounts.models import CustomUser
+
 
 class Category(models.Model):
     name = models.CharField(max_length=255)
@@ -19,10 +21,17 @@ class Product(models.Model):
         return self.title
 
 class Cart(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    products = models.ManyToManyField(Product, on_delete=models.CASCADE)
-    quantity = models.PositiveIntegerField(default=1)
-    price = models.ForeignKey(Product, on_delete=models.CASCADE)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    final_price = models.DecimalField(max_digits=9, decimal_places=2)
+    final_quantity = models.DecimalField(max_digits=9, decimal_places=2)
 
-    def __str__(self):
-        return f'Корзина пользователя {self.user.username} ({self.quantity} товаров)'
+    # def __str__(self):
+    #     return self.user
+
+class CartItem(models.Model):
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=1)
+
+    # def __str__(self):
+    #     return self.product
