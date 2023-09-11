@@ -1,3 +1,5 @@
 from django.contrib import admin
+from .models import Callback, Feedback
 
-# Register your models here.
+admin.site.register(Callback)
+admin.site.register(Feedback)
