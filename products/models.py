@@ -1,5 +1,4 @@
 from django.db import models
-
 from accounts.models import CustomUser
 
 
@@ -35,3 +34,5 @@ class CartItem(models.Model):
 
     # def __str__(self):
     #     return self.product
+
+
