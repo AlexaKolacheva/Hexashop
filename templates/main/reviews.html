@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="page-heading" id="top">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="inner-content">
+                        <h2>Отзывы</h2>
+                        <span>Ваши отзывы важны для нас. Поделитесь вашими впечатлениями и помогите нам стать лучше.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% for i in comments %}
+   <div class="review">
+        <h2>{{ i.author }}</h2>
+        <strong>Комментарий:</strong><p>{{ i.text }}</p>
+    </div>
+{% endfor %}
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+</form>
+<br>
+
+<a href="{% url 'comments' %}">
+    <button type="submit">Добавить комментарий</button>
+</a>
+
+
+{% endblock %}
