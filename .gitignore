@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 # created by virtualenv automatically
 db.sqlite3
 venv
@@ -6,12 +6,4 @@ __pycache__
 media
 .idea
 
-=======
-*.pyc 
-*~ 
-__pycache__ 
-/myvenv 
-/db.sqlite3 
-/static 
-/.DS_Store 
->>>>>>> 4b72188 (All)
+
