@@ -1,5 +1,12 @@
+<<<<<<< HEAD
 venv
 db.sqlite3
 /__pycache__
+=======
+# created by virtualenv automatically
+db.sqlite3
+venv
+__pycache__
+>>>>>>> 8ea77e38352959fd3125d3eda8f0d94c306f23e0
 media
 .idea
