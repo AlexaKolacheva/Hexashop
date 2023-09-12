@@ -31,13 +31,14 @@
                     <div class="section-heading">
                         <h2>Our Latest Products</h2>
                         <span>Check out all of our products.</span>
-                         <ul>
-                            {% for product in products %}
-                                <li>{{ product.title }} - {{ product.price }} тг.</li>
-                            {% empty %}
-                                <li>Нет доступных продуктов.</li>
+                         <h1>Подробная информация о продукте</h1>
+                                {% for product in products %}
+                                <h2>{{ product.title }}</h2>
+                                <p>Категория: {{ product.category.name }}</p>
+                                <p>Цена: {{ product.price }} тг.</p>
+                                <p>Описание: {{ product.description }}</p>
+                                <img src="{{ product.image.url }}" alt="{{ product.title }}">
                             {% endfor %}
-                        </ul>
                     </div>
                 </div>
             </div>

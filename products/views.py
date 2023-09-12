@@ -9,6 +9,11 @@ def product_list(request):
     context = {'products': products}
     return render(request, 'main/products.html', context)
 
+def detail_product(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+    context = {'product': product}
+    return render(request, 'main/single-product.html', context)
+
 
 def add_to_cart(request, product_id):
     product = get_object_or_404(Product, id=product_id)
