@@ -15,6 +15,7 @@ def callbacks(request):
     return render(request, 'main/contact.html', {'form': form})
 
 
+
 # def feedback(request):
 #     feedbacks = Comment.objects.all()
 #     context = {
@@ -50,3 +51,7 @@ def about(request):
         'abouts': abouts
     }
     return render(request, 'main/about.html', context)
+
+def index(request):
+    return render(request, 'main/index.html')
+

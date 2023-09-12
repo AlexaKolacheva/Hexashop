@@ -3,6 +3,7 @@
 {% block title %}Статьи{% endblock title %}
 
 {% block content %}
+
     <form action="{% url 'register' %}" method="post">
         {% csrf_token %}
         {{ form.as_p }}
