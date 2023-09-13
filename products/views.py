@@ -36,6 +36,7 @@ def detail_product(request, product_id):
     return render(request, 'main/single-product.html', context)
 
 
+
 def add_to_cart(request, product_id):
     product = get_object_or_404(Product, id=product_id)
 
@@ -60,3 +61,52 @@ def view_cart(request):
     cart, created = Cart.objects.get_or_create(user=user)
     cart_item = CartItem.objects.filter(cart=cart)
     return render(request, 'main/cart.html', {'cart_item': cart_item, 'cart': cart})
+
+def remove_from_cart(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+
+    # Проверяем, есть ли пользователь, иначе используем анонимного пользователя
+    user = request.user
+
+    # Получаем корзину пользователя (или создаем новую, если нет)
+    cart, created = Cart.objects.get_or_create(user=user)
+
+    # Попробуйте найти продукт в корзине и удалить его
+    try:
+        cart_item = CartItem.objects.get(cart=cart, product=product)
+        cart_item.delete()
+    except CartItem.DoesNotExist:
+        pass  # Если товар не найден в корзине, ничего не делаем
+
+    return redirect('view_cart')
+
+
+
+
+
+
+
+def increase_cart(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+    user = request.user
+    cart, created = Cart.objects.get_or_create(user=user)
+    cart_item = CartItem.objects.get(cart=cart, product=product)
+    cart_item.quantity += 1
+    cart_item.save()
+    return redirect('view_cart')
+
+def decrease_cart(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+    user = request.user
+    cart, created = Cart.objects.get_or_create(user=user)
+    cart_item = CartItem.objects.get(cart=cart, product=product)
+
+    if cart_item.quantity > 1:
+        cart_item.quantity -= 1
+        cart_item.save()
+    else:
+        pass
+    return redirect('view_cart')
+
+
+

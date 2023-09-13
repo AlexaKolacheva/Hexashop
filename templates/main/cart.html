@@ -1,31 +1,51 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>Корзина</h1>
+    <div class="container mt-5"> <!-- Добавьте отступ сверху -->
+        <h1>Корзина</h1>
 
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>Название товара</th>
-                <th>Цена</th>
-                <th>Количество</th>
-                <th>Итого</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for cart_item in cart.cartitem_set.all %}
+        <table class="table table-bordered">
+            <thead>
                 <tr>
-                    <td>{{ cart_item.product.title }}</td>
-                    <td>{{ cart_item.product.price }} тг</td>
-                    <td>{{ cart_item.quantity }}</td>
-                    <td> {{ cart_item.total_price }} тг</td>
+                    <th>Название товара</th>
+                    <th>Цена</th>
+                    <th>Количество</th>
+                    <th>Итого</th>
+                    <th>Действия</th>
                 </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                {% for cart_i in cart_item %}
+                    <tr>
+                        <td>{{ cart_i.product.title }}</td>
+                        <td>{{ cart_i.product.price }} тг</td>
+                        <td>
+                            <form method="post" action="{% url 'increase_cart' cart_i.product.id %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-link">+</button>
+                            </form>
+                            {{ cart_i.quantity }}
+                            <form method="post" action="{% url 'decrease_cart' cart_i.product.id %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-link">-</button>
+                            </form>
+                        </td>
+                        <td>{{ cart_i.total_price }} тг</td>
+                        <td>
+                            <form method="post" action="{% url 'remove' cart_i.product.id %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger">Удалить</button> <!-- Используйте стиль Bootstrap для определения цвета кнопки удаления -->
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
 
-    <p>Итоговая цена: ${{ cart.final_price }}</p>
-    <p>Итоговое количество: {{ cart.final_quantity }}</p>
+        <p>Итоговая цена: {{ cart.final_price }}</p>
+        <p>Итоговое количество: {{ cart.final_quantity }}</p>
 
-    <a href="#" class="btn btn-primary">Оформить заказ</a>
+        <a href="" class="btn btn-primary">Оформить заказ</a>
+    </div>
+
 {% endblock %}
