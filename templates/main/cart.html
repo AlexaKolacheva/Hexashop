@@ -30,7 +30,7 @@
                                 <button type="submit" class="btn btn-link">-</button>
                             </form>
                         </td>
-                        <td>{{ cart_i.total_price }} тг</td>
+                        <td>{{ cart_i.final_price }} тг</td>
                         <td>
                             <form method="post" action="{% url 'remove' cart_i.product.id %}">
                                 {% csrf_token %}
@@ -45,7 +45,7 @@
         <p>Итоговая цена: {{ cart.final_price }}</p>
         <p>Итоговое количество: {{ cart.final_quantity }}</p>
 
-        <a href="" class="btn btn-primary">Оформить заказ</a>
+        <a href="{% url 'profile' user.pk %}" class="btn btn-primary">Оформить заказ</a>
     </div>
 
 {% endblock %}
