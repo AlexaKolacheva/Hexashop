@@ -1,5 +1,25 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Product, Cart
+from .models import Product, Cart, CartItem, Category
+from django.core.paginator import Paginator
+
+
+def product_by_category(request, category_id):
+    # Получите выбранную категорию
+    category = Category.objects.get(pk=category_id)
+
+    # Фильтруйте продукты по выбранной категории
+    products = Product.objects.filter(category=category)
+    items_per_page = 3
+    paginator = Paginator(products, items_per_page)
+
+    # Получите номер текущей страницы из параметра запроса (GET)
+    page_number = request.GET.get('page')
+
+    # Получите объект страницы продуктов
+    page = paginator.get_page(page_number)
+
+    context = {'products': products, 'category': category}
+    return render(request, 'main/products.html', context)
 
 
 def product_list(request):
@@ -8,6 +28,7 @@ def product_list(request):
 
     context = {'products': products}
     return render(request, 'main/products.html', context)
+
 
 def detail_product(request, product_id):
     product = get_object_or_404(Product, id=product_id)
@@ -18,19 +39,24 @@ def detail_product(request, product_id):
 def add_to_cart(request, product_id):
     product = get_object_or_404(Product, id=product_id)
 
-    # Предполагается, что у вас есть способ получить текущего пользователя
+    # Проверяем, есть ли пользователь, иначе используем анонимного пользователя
     user = request.user
 
-    # Создайте корзину для пользователя, если ее еще нет
+    # Получаем корзину пользователя (или создаем новую, если нет)
     cart, created = Cart.objects.get_or_create(user=user)
 
-    # Попробуйте найти продукт в корзине
-    cart_item, item_created = cart.products.get_or_create(product=product)
+    # Пытаемся найти продукт в корзине
 
+    cart_item, item_created = CartItem.objects.get_or_create(cart=cart, product=product)
     if not item_created:
-        # Если продукт уже есть в корзине, увеличьте его количество на 1
         cart_item.quantity += 1
         cart_item.save()
 
-    return redirect('main/cart.html')
+    return redirect('view_cart')
 
+
+def view_cart(request):
+    user = request.user
+    cart, created = Cart.objects.get_or_create(user=user)
+    cart_item = CartItem.objects.filter(cart=cart)
+    return render(request, 'main/cart.html', {'cart_item': cart_item, 'cart': cart})
