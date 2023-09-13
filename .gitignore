@@ -1,6 +1,6 @@
 
 # created by virtualenv automatically
-db.sqlite3
+il.sqlite3
 venv
 __pycache__/
 media
