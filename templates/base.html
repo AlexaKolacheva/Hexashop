@@ -1,5 +1,5 @@
 {% load static %}
-
+{% load category_tags %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -44,18 +44,9 @@ https://templatemo.com/tm-571-hexashop
         <div class="row">
             <div class="col-12">
                 <nav class="main-nav">
-                    <!-- ***** Logo Start ***** -->
-                    <a href="index.html" class="logo">
-                        {% if user.is_authenticated %}
-                            <p>Добро пожаловать, {{ user.username }}!</p>
-                        {% else %}
-                            <p>Добро пожаловать, гость!</p>
-                        {% endif %}
-                        <img src="{% static 'images/logo.png' %}">
-                    </a>
-                    <!-- ***** Logo End ***** -->
-                    <!-- ***** Menu Start ***** -->
                     <ul class="nav">
+                        <img src="{% static 'images/logo.png' %}">
+
                         {% if user.is_authenticated %}
                             <a href="{% url 'logout' %}" class="nav-link">Выход</a>
                             <a href="{% url 'profile' user.pk %}" class="nav-link">Профиль</a>
@@ -63,10 +54,8 @@ https://templatemo.com/tm-571-hexashop
                             <a href="{% url 'register' %}" class="nav-link">Регистрация</a>
                             <a href="{% url 'login' %}" class="nav-link">Вход</a>
                         {% endif %}
-                        <li class="scroll-to-section"><a href="#{% url 'index' %}" class="active">Home</a></li>
-                        <li class="scroll-to-section"><a href="#men">Men's</a></li>
-                        <li class="scroll-to-section"><a href="#women">Women's</a></li>
-                        <li class="scroll-to-section"><a href="#kids">Kid's</a></li>
+                        <li class="scroll-to-section"><a href="{% url 'index' %}" class="active">Home</a></li>
+                        {% show_categories %}
                         <li class="submenu">
                             <a href="javascript:;">Pages</a>
                             <ul>
@@ -91,6 +80,11 @@ https://templatemo.com/tm-571-hexashop
                     <a class='menu-trigger'>
                         <span>Menu</span>
                     </a>
+                     {% if user.is_authenticated %}
+                            <li>Добро пожаловать, {{ user.username }}!</li>
+                        {% else %}
+                            <li>Добро пожаловать, гость!</li>
+                        {% endif %}
                     <!-- ***** Menu End ***** -->
                 </nav>
             </div>

@@ -8,6 +8,6 @@ urlpatterns = [
     path('comments/', views.add_comment, name='comments'),
     path('about/', views.about, name='about'),
     path('', views.index, name='index'),
-
+    path('delete/<int:comment_id>', views.delete_comment, name='delete'),
 ]
 
