@@ -27,7 +27,7 @@ class CustomUserManage(BaseUserManager):
 
 class CustomUser(AbstractUser):
     bio = models.TextField(max_length=500, blank=True)
-    phone_number = models.CharField(max_length=12, blank=True)
+    phone_number = models.CharField(max_length=12, blank=True, default='Отсутствует')
     birthdate = models.DateField(null=True, blank=True)
     
     objects = CustomUserManage()
