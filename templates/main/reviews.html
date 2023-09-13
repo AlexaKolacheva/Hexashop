@@ -21,6 +21,8 @@
         <h2>{{ i.author }}</h2>
         <strong>Комментарий:</strong><p>{{ i.text }}</p>
     </div>
+<br>
+<a href="{% url 'delete' i.id %}"><button>Удалить</button></a>
 {% endfor %}
 
 <form method="post">

@@ -36,6 +36,11 @@ def add_comment(request):
     return render(request, 'main/coment.html', {'form': form})
 
 
+def delete_comment(request, comment_id):
+    Comment.objects.filter(id=comment_id).delete()
+    return redirect('reviews')
+
+
 def reviews(request):
     comments = Comment.objects.all()
 
