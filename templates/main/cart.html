@@ -42,7 +42,7 @@
             </tbody>
         </table>
 
-        <p>Итоговая цена: {{ cart.final_price }}</p>
+        <p>Итоговая цена: {{ cart.total_price }}t</p>
         <p>Итоговое количество: {{ cart.final_quantity }}</p>
 
         <a href="{% url 'profile' user.pk %}" class="btn btn-primary">Оформить заказ</a>

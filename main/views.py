@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 
+from products.models import Category
 from .models import Callback, Review, Feedback, Comment, About
 from .forms import CallbackForm, ReviewForm, FeedbackForm, CommentForm
 
@@ -58,5 +59,6 @@ def about(request):
     return render(request, 'main/about.html', context)
 
 def index(request):
-    return render(request, 'main/index.html')
+    categories = Category.objects.all()
+    return render(request, 'main/index.html', {'categories': categories})
 
