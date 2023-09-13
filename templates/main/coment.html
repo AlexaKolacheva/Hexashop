@@ -1,10 +1,17 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
 <form method="POST" action="{% url 'comments' %}">
   {% csrf_token %}
   {{ form.as_p }}
-
+  <br>
   <button type="submit">Добавить комментарий</button>
 </form>
 {% endblock %}
