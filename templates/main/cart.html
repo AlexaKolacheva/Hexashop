@@ -1,8 +1,9 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block content %}
     <div class="container mt-5"> <!-- Добавьте отступ сверху -->
         <h1>Корзина</h1>
+        {% if user.is_authenticated %}
 
         <table class="table table-bordered">
             <thead>
@@ -45,7 +46,10 @@
         <p>Итоговая цена: {{ cart.total_price }}t</p>
         <p>Итоговое количество: {{ cart.final_quantity }}</p>
 
-        <a href="{% url 'profile' user.pk %}" class="btn btn-primary">Оформить заказ</a>
+        <a href="{% url 'create_order'  %}" class="btn btn-primary">Оформить заказ</a>
+        {% else %}
+        <p>Для оформления заказа, пожалуйста, <a href="{% url 'login' %}">войдите</a> или <a href="{% url 'register' %}">зарегистрируйтесь</a>.</p>
+        {% endif %}
     </div>
 
 {% endblock %}

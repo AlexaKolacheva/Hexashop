@@ -1,10 +1,38 @@
-{% extends "base.html" %}
-
-{% block title %}Articles{% endblock title %}
+{% extends 'base.html' %}
 
 {% block content %}
+<div class="container mt-4">
+  <br>
+  <br>
     <h2>Пользователь: {{ user.username }}</h2>
-    <p> Телефонный номер: {{ user.phone_number }}</p>
+    <p>Телефонный номер: {{ user.phone_number }}</p>
+  <br>
+  <br>
 
 
+    {% if orders %}
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>Product</th>
+                <th>Date Created</th>
+                <th>Total Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+            <tr>
+                <td>{{ order.id }}</td>
+                <td>{{ order.product.title }}</td>
+                <td>{{ order.created_at }}</td>
+                <td>{{ order.product.price }} тг</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No order history available.</p>
+    {% endif %}
+</div>
 {% endblock content %}
