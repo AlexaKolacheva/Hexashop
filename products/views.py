@@ -1,5 +1,6 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Product, Cart, CartItem, Category
+from .models import Product, Cart, CartItem, Category, PurchaseHistory, Order
 from django.core.paginator import Paginator
 
 
@@ -36,7 +37,7 @@ def detail_product(request, product_id):
     return render(request, 'main/single-product.html', context)
 
 
-
+@login_required
 def add_to_cart(request, product_id):
     product = get_object_or_404(Product, id=product_id)
 
@@ -55,13 +56,14 @@ def add_to_cart(request, product_id):
 
     return redirect('view_cart')
 
-
+@login_required
 def view_cart(request):
     user = request.user
     cart, created = Cart.objects.get_or_create(user=user)
     cart_item = CartItem.objects.filter(cart=cart)
     return render(request, 'main/cart.html', {'cart_item': cart_item, 'cart': cart})
 
+@login_required
 def remove_from_cart(request, product_id):
     product = get_object_or_404(Product, id=product_id)
 
@@ -79,11 +81,6 @@ def remove_from_cart(request, product_id):
         pass  # Если товар не найден в корзине, ничего не делаем
 
     return redirect('view_cart')
-
-
-
-
-
 
 
 def increase_cart(request, product_id):
@@ -107,6 +104,44 @@ def decrease_cart(request, product_id):
     else:
         pass
     return redirect('view_cart')
+
+def create_order(request):
+    user = request.user  # Получите текущего пользователя
+    cart = Cart.objects.get(user=user)
+
+    # Создаем объект Order для каждого продукта в корзине пользователя
+    for cart_item in cart.cart_items.all():
+        product = cart_item.product
+        quantity = cart_item.quantity
+
+        # Создаем объект Order
+        order = Order.objects.create(
+            product=product,
+            customer=user,
+        )
+
+        # Устанавливаем количество продукта в заказе
+        order.amount = quantity
+        order.save()
+
+        # После создания заказа, вы можете удалить соответствующий элемент корзины
+        cart_item.delete()
+
+    return redirect('order_history')
+
+
+
+
+def order_history(request):
+    user = request.user
+    orders = Order.objects.filter(customer=user)
+
+    context = {
+        'orders': orders,
+    }
+
+    return render(request, 'accounts/profile.html', context)
+
 
 
 
